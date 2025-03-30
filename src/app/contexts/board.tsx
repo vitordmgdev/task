@@ -1,14 +1,16 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import { Toaster } from "sonner";
 
-type Task = {
+export type Task = {
     id: string,
     name: string,
-    description?: string,
+    description?: string | undefined,
+    columnId: string
 };
 
-type Column = {
+export type Column = {
     id: string,
     name: string,
     tasks: Task[]
@@ -23,7 +25,8 @@ type Board = {
 //Tipagem do BoardContext
 type BoardContextType = {
     board: Board,
-    createTask: (columnId: string, task: Task) => void
+    createTask: (columnId: string, task: Task) => void,
+    deleteTask: (columnId: string, taskId: string) => void
 };
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
@@ -42,6 +45,7 @@ const initialBoard = {
 
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     const [ board, setBoard ] = useState<Board>(initialBoard);
+    console.log(board);
 
     const createTask = (columnId: string, task: Task ) => {
         setBoard((prev) => ({
@@ -52,8 +56,18 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
         }));
     };
 
+    const deleteTask = (columnId: string, taskId: string ) => {
+        setBoard((prev) => ({
+            ...prev,
+            columns: prev.columns.map((col) => 
+            col.id === columnId ? {...col, tasks: [...col.tasks.filter(task => task.id !== taskId)]} : col
+        )
+        }));
+    };
+
     return (
-        <BoardContext.Provider value={{ board, createTask }}>
+        <BoardContext.Provider value={{ board, createTask, deleteTask }}>
+            <Toaster />
             {children}
         </BoardContext.Provider>
     );

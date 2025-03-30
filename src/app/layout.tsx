@@ -28,7 +28,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <header className="w-full h-[70px] flex items-center pl-6">
+        <BoardProvider>
+        <header className="w-full h-[70px] flex items-center pl-6">
             {/* Left Header */}
             <div>
               <h1 className="font-medium text-2xl">Tasks</h1>
@@ -36,6 +37,8 @@ export default function RootLayout({
 
           </header>
           {children}
+        </BoardProvider>
+          
       </body>
     </html>
   );
