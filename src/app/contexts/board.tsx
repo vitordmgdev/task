@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Trash2 } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 import { Toaster, toast } from "sonner";
 
@@ -75,13 +75,17 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
         )
         }));
         toast("Tarefa deletada!", {
-            description: `A tarefa "${taskName}" foi removida.`
+            description: `A tarefa "${taskName}" foi removida.`,
+            icon: <Trash2 className="text-red-400" />,
+            style: {
+                gap: "30px"
+            }
         });
     };
 
     return (
         <BoardContext.Provider value={{ board, createTask, deleteTask }}>
-            <Toaster theme="dark" />
+            <Toaster theme="light" />
             {children}
         </BoardContext.Provider>
     );
