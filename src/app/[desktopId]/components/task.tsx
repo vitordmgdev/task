@@ -1,7 +1,7 @@
 import { Task, useBoard } from "@/app/contexts/board";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { toast } from "sonner";
+
 
 const TaskOfColumn = ({id, name, description, columnId }: Task) => {
     const { deleteTask } = useBoard();
@@ -10,7 +10,6 @@ const TaskOfColumn = ({id, name, description, columnId }: Task) => {
 
     const handleDeleteTask = () => {
         deleteTask(columnId, id);
-        toast("Tarefa deletada");
     };
 
     return ( 
