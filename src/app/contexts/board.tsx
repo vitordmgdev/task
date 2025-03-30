@@ -1,7 +1,8 @@
 "use client";
 
+import { CircleCheck, Trash2 } from "lucide-react";
 import { createContext, useContext, useState } from "react";
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 
 export type Task = {
     id: string,
@@ -45,29 +46,46 @@ const initialBoard = {
 
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     const [ board, setBoard ] = useState<Board>(initialBoard);
-    console.log(board);
 
     const createTask = (columnId: string, task: Task ) => {
+        const columnName = board.columns.find(col => col.id === columnId)?.name;
+
         setBoard((prev) => ({
             ...prev,
             columns: prev.columns.map((col) =>
                 col.id === columnId ? {...col, tasks: [...col.tasks, task]} : col
             ),
         }));
+        toast("Tarefa criada!", {
+            description: `Tarefa adicionada na lista "${columnName}".`,
+            icon: <CircleCheck className="text-green-400" />,
+            style: {
+                gap: "16px"
+            }
+        });
     };
 
     const deleteTask = (columnId: string, taskId: string ) => {
+        const taskName = board.columns.find(col => col.id === columnId)?.tasks.find(task => task.id === taskId)?.name;
+
         setBoard((prev) => ({
             ...prev,
             columns: prev.columns.map((col) => 
             col.id === columnId ? {...col, tasks: [...col.tasks.filter(task => task.id !== taskId)]} : col
         )
         }));
+        toast("Tarefa deletada!", {
+            description: `A tarefa "${taskName}" foi removida.`,
+            icon: <Trash2 className="text-red-400" />,
+            style: {
+                gap: "30px"
+            }
+        });
     };
 
     return (
         <BoardContext.Provider value={{ board, createTask, deleteTask }}>
-            <Toaster />
+            <Toaster theme="light" />
             {children}
         </BoardContext.Provider>
     );
