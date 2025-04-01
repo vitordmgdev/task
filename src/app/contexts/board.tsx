@@ -1,36 +1,37 @@
 "use client";
 
-import { CircleCheck, Trash2 } from "lucide-react";
+import { CircleCheck, CircleX } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 import { Toaster, toast } from "sonner";
 
-export type Task = {
+export type task = {
     id: string,
     name: string,
     description?: string | undefined,
     columnId: string
 };
 
-export type Column = {
+export type column = {
     id: string,
     name: string,
-    tasks: Task[]
+    tasks: task[]
 };
 
-type Board = {
+type board = {
     id: string,
     name: string,
-    columns: Column[]
+    columns: column[]
 };
 
 //Tipagem do BoardContext
-type BoardContextType = {
-    board: Board,
-    createTask: (columnId: string, task: Task) => void,
-    deleteTask: (columnId: string, taskId: string) => void
+type boardContextType = {
+    board: board,
+    createTask: (columnId: string, task: task) => void,
+    deleteTask: (columnId: string, taskId: string) => void,
+    deleteColumn: (columnId: string) => void
 };
 
-const BoardContext = createContext<BoardContextType | undefined>(undefined);
+const BoardContext = createContext<boardContextType | undefined>(undefined);
 
 //Estado inicial do quadro
 const initialBoard = {
@@ -45,9 +46,25 @@ const initialBoard = {
 };
 
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
-    const [ board, setBoard ] = useState<Board>(initialBoard);
+    const [ board, setBoard ] = useState<board>(initialBoard);
 
-    const createTask = (columnId: string, task: Task ) => {
+    const deleteColumn = (columnId: string) => {
+        const columnName = board.columns.find(col => col.id === columnId)?.name;
+
+        setBoard((prev) => ({
+            ...prev,
+            columns: prev.columns.filter(col => col.id !== columnId)
+        }));
+        toast("Lista excluida!", {
+            description: `A lista ${columnName} foi excluida!`,
+            icon: <CircleX className="text-red-400" />,
+            style: {
+                gap: "16px"
+            }
+        });
+    };
+
+    const createTask = (columnId: string, task: task ) => {
         const columnName = board.columns.find(col => col.id === columnId)?.name;
 
         setBoard((prev) => ({
@@ -60,8 +77,8 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
             description: `Tarefa adicionada na lista "${columnName}".`,
             icon: <CircleCheck className="text-green-400" />,
             style: {
-                gap: "16px"
-            }
+                gap: "16px",
+            },
         });
     };
 
@@ -76,16 +93,22 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
         }));
         toast("Tarefa deletada!", {
             description: `A tarefa "${taskName}" foi removida.`,
-            icon: <Trash2 className="text-red-400" />,
+            icon: <CircleX className="text-red-400" />,
+            action: {
+                label: "Desfazer",
+                onClick: () => console.log("teste")
+            },
             style: {
-                gap: "30px"
-            }
+                gap: "16px",
+            },
         });
     };
 
+    
+
     return (
-        <BoardContext.Provider value={{ board, createTask, deleteTask }}>
-            <Toaster theme="light" />
+        <BoardContext.Provider value={{ board, createTask, deleteTask, deleteColumn }}>
+            <Toaster theme="dark" />
             {children}
         </BoardContext.Provider>
     );

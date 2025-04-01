@@ -1,32 +1,19 @@
-import { Task, useBoard } from "@/app/contexts/board";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { task } from "@/app/contexts/board";
+import TaskDialog from "./taskDialog";
 
-
-const TaskOfColumn = ({id, name, description, columnId }: Task) => {
-    const { deleteTask } = useBoard();
-
-    console.log(columnId,id);
-
-    const handleDeleteTask = () => {
-        deleteTask(columnId, id);
-    };
-
+const Task = ({id, name, description, columnId }: task) => {
     return ( 
-        <div className="p-4 border border-neutral-300 rounded-sm">
-            <div className="flex flex-row justify-between">
-                <h1>{name}</h1>
-                <Button 
-                size="icon" 
-                className="rounded-sm cursor-pointer" 
-                variant="ghost"
-                onClick={handleDeleteTask}>
-                    <Trash2 />
-                </Button>
+        <TaskDialog id={id} columnId={columnId}>
+            <div className="flex flex-col gap-1 p-2 border border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 rounded-sm">
+                <div className="flex flex-row justify-between">
+                    <h1 className="text-sm">
+                        {name}
+                    </h1>
+                </div>
+                { description !== undefined && <p className="text-md text-muted-foreground">{description}</p> }
             </div>
-            { description !== undefined && <p>{description}</p> }
-        </div>
+        </TaskDialog>
     );
 };
  
-export default TaskOfColumn;
+export default Task;
