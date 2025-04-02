@@ -119,8 +119,6 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
         });
     };
 
-    
-
     return (
         <BoardContext.Provider value={{ board, createTask, deleteTask, createColumn, deleteColumn }}>
             <Toaster theme="dark" />
