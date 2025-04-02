@@ -46,7 +46,7 @@ const TaskForm = ({handleCreateTask}: TaskFormProps) => {
                     control={form.control}
                     name="name"
                     render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col gap-3">
                             <FormLabel>Nome da tarefa</FormLabel>
                             <FormControl>
                                 <Input placeholder="Nome da tarefa" {...field} />
@@ -59,7 +59,7 @@ const TaskForm = ({handleCreateTask}: TaskFormProps) => {
                     control={form.control}
                     name="description"
                     render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="flex flex-col gap-3">
                             <FormLabel>Descrição</FormLabel>
                             <FormControl>
                                 <Textarea placeholder="Descrição" {...field} />

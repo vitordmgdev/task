@@ -4,7 +4,10 @@ import {
     PopoverContent,
     PopoverTrigger
 } from "@/components/ui/popover";
-import { Trash2 } from "lucide-react";
+import { 
+    Copy, 
+    Trash2 
+} from "lucide-react";
 
 interface ColumnPopoverProps {
     children: React.ReactNode,
@@ -24,6 +27,10 @@ const ColumnPopover = ({
                 <Button 
                 className="w-full justify-start" variant="ghost" onClick={handleDeleteColumn}>
                     <Trash2 /> Excluir lista
+                </Button>
+                <Button 
+                className="w-full justify-start" variant="ghost">
+                    <Copy /> Copiar lista
                 </Button>
             </PopoverContent>
         </Popover>

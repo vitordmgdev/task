@@ -26,7 +26,7 @@ const ColumnTask = ({id, name, tasks }: column) => {
     };
 
     return ( 
-        <div className="min-w-[200px] w-[340px] max-w-[440px] rounded-md flex flex-col gap-2">
+        <div className="min-w-[200px] w-[360px] max-w-[440px] rounded-md flex flex-col gap-2">
             <div className="flex justify-between">
                 <h1 className="text-xl font-medium">{name}</h1>
                 <div className="flex gap-2 cursor-pointer">

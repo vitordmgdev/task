@@ -3,6 +3,7 @@
 import { CircleCheck, CircleX } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 import { Toaster, toast } from "sonner";
+import { v4 as uuid } from "uuid";
 
 export type task = {
     id: string,
@@ -28,7 +29,8 @@ type boardContextType = {
     board: board,
     createTask: (columnId: string, task: task) => void,
     deleteTask: (columnId: string, taskId: string) => void,
-    deleteColumn: (columnId: string) => void
+    createColumn: () => void,
+    deleteColumn: (columnId: string) => void,
 };
 
 const BoardContext = createContext<boardContextType | undefined>(undefined);
@@ -39,14 +41,25 @@ const initialBoard = {
     name: "Meu quadro de tarefas",
     description: "Tarefas do dia-a-dia",
     columns: [
-        { id: "col1", name: "A Fazer", tasks: [] },
-        { id: "col2", name: "Em Andamento", tasks: [] },
-        { id: "col3", name: "Concluído", tasks: [] }
+        { 
+            id: uuid(), 
+            name: "A Fazer", 
+            tasks: [] 
+        }
     ],
 };
 
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     const [ board, setBoard ] = useState<board>(initialBoard);
+
+    const createColumn = () => {
+        const boardLength : number = board.columns.length;
+
+        setBoard((prev) => ({
+            ...prev,
+            columns: [...prev.columns, {id: uuid(), name: `Lista ${boardLength + 1}`, tasks: []}]
+        }));
+    };
 
     const deleteColumn = (columnId: string) => {
         const columnName = board.columns.find(col => col.id === columnId)?.name;
@@ -107,7 +120,7 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     
 
     return (
-        <BoardContext.Provider value={{ board, createTask, deleteTask, deleteColumn }}>
+        <BoardContext.Provider value={{ board, createTask, deleteTask, createColumn, deleteColumn }}>
             <Toaster theme="dark" />
             {children}
         </BoardContext.Provider>

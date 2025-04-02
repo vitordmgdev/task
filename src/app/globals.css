@@ -122,3 +122,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  padding: 0;
+  margin: 0;
+  
+}
