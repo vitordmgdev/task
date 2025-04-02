@@ -1,8 +1,9 @@
+"use client";
+
 import { column, useBoard } from "@/app/contexts/board";
 import { Button } from "@/components/ui/button";
-import { Ellipsis, ListCheckIcon } from "lucide-react";
+import { Ellipsis, ListCheckIcon, Trash } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-import ColumnPopover from "./columnPopover";
 import CreateTaskDialog from "./createTaskDialog";
 import Task from "./task";
 
@@ -35,11 +36,14 @@ const ColumnTask = ({id, name, tasks }: column) => {
                             <ListCheckIcon />
                         </Button>
                     </CreateTaskDialog>
-                    <ColumnPopover handleDeleteColumn={handleDeleteColumn}>
-                        <Button size="icon"  className="rounded-sm cursor-pointer" variant="ghost">
-                            <Ellipsis />
-                        </Button>
-                    </ColumnPopover>
+                    <Button size="icon" className="rounded-sm cursor-pointer" 
+                    variant="ghost">
+                        <Ellipsis />
+                    </Button>
+                    <Button size="icon" className="rounded-sm cursor-pointer" 
+                    variant="ghost" onClick={handleDeleteColumn}>
+                        <Trash />
+                    </Button>
                 </div>
             </div>
             {

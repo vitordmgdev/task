@@ -52,6 +52,10 @@ const initialBoard = {
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     const [ board, setBoard ] = useState<board>(initialBoard);
 
+    const styledToast = {
+        gap: "16px"
+    };
+
     const createColumn = () => {
         const boardLength : number = board.columns.length;
 
@@ -59,6 +63,12 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
             ...prev,
             columns: [...prev.columns, {id: uuid(), name: `Lista ${boardLength + 1}`, tasks: []}]
         }));
+
+        toast("Nova coluna criada com sucesso!", {
+            description: `A lista ${boardLength + 1} foi criada com sucesso!`,
+            icon: <CircleCheck className="text-green-400" />,
+            style: styledToast
+        });
     };
 
     const deleteColumn = (columnId: string) => {
@@ -71,9 +81,7 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
         toast("Lista excluida!", {
             description: `A lista ${columnName} foi excluida!`,
             icon: <CircleX className="text-red-400" />,
-            style: {
-                gap: "16px"
-            }
+            style: styledToast
         });
     };
 
@@ -86,12 +94,11 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
                 col.id === columnId ? {...col, tasks: [...col.tasks, task]} : col
             ),
         }));
+
         toast("Tarefa criada!", {
             description: `Tarefa adicionada na lista "${columnName}".`,
             icon: <CircleCheck className="text-green-400" />,
-            style: {
-                gap: "16px",
-            },
+            style: styledToast
         });
     };
 
@@ -104,16 +111,11 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
             col.id === columnId ? {...col, tasks: [...col.tasks.filter(task => task.id !== taskId)]} : col
         )
         }));
+
         toast("Tarefa deletada!", {
             description: `A tarefa "${taskName}" foi removida.`,
             icon: <CircleX className="text-red-400" />,
-            action: {
-                label: "Desfazer",
-                onClick: () => console.log("teste")
-            },
-            style: {
-                gap: "16px",
-            },
+            style: styledToast
         });
     };
 

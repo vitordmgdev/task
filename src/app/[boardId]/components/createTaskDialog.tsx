@@ -15,7 +15,7 @@ interface createTaskDialogProps {
 const CreateTaskDialog = ({children, handleCreateTask}:createTaskDialogProps) => {
     return ( 
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
             <DialogContent>
