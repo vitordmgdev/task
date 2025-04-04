@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { BoardProvider } from "./contexts/board";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  weight: ["100","200","300","400","500","600","700","800","900"],
+  subsets: ["latin"]
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang="pt-br">
-      <body className="antialiased">
+      <body className={`${poppins.className} antialiased`}>
         <ThemeProvider
         attribute="class"
         defaultTheme="dark">
@@ -27,7 +33,6 @@ export default function RootLayout({
               <div>
                 <h1 className="font-medium text-2xl">Tasks</h1>
               </div>
-
             </header>
             {children}
           </BoardProvider>
