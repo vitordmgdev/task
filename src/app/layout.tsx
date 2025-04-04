@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { BoardProvider } from "./contexts/board";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Poppins } from "next/font/google";
+import Providers from "./providers";
 
 const poppins = Poppins({
   weight: ["100","200","300","400","500","600","700","800","900"],
@@ -20,23 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   
-
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="dark">
-          <BoardProvider>
+        <Providers>
           <header className="w-full h-[70px] flex items-center pl-6">
-              {/* Left Header */}
-              <div>
-                <h1 className="font-medium text-2xl">Tasks</h1>
-              </div>
-            </header>
-            {children}
-          </BoardProvider>
-        </ThemeProvider>
+            {/* Left Header */}
+            <div>
+              <h1 className="font-medium text-2xl">Task</h1>
+            </div>
+          </header>
+          {children}
+        </Providers>
       </body>
     </html>
   );

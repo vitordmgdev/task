@@ -1,14 +1,14 @@
-import SignupForm from "./signupForm";
+import SigninForm from "./signinForm";
 
-const TabAuthSignup = () => {
+const TabAuthSignin = () => {
     return (  
         <div className="flex flex-col gap-4 w-[480px] max-w-[480px]">
             <h1 className="text-3xl font-semibold">
-                Crie sua conta
+                Entre na sua conta
             </h1>
-            <SignupForm />   
+            <SigninForm />
         </div>
     );
 };
  
-export default TabAuthSignup;
+export default TabAuthSignin;

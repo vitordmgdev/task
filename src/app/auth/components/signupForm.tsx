@@ -6,9 +6,11 @@ import {
     FormControl, 
     FormField, 
     FormItem, 
-    FormLabel 
+    FormLabel, 
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import { formSchemaUser } from "@/schemas/user-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,9 +24,13 @@ const SignupForm = () => {
         }
     });
 
+    const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
+        console.log(values);
+    };
+
     return ( 
         <Form {...form}>
-            <form action="" className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(handleSubmit)}>
                 <FormField
                 control={form.control}
                 name="username"
@@ -32,8 +38,9 @@ const SignupForm = () => {
                     <FormItem>
                         <FormLabel>Nome de usuário</FormLabel>
                         <FormControl>
-                            <Input placeholder="@nomedeusuário" {...field} />
+                            <Input placeholder="@username" {...field} />
                         </FormControl>
+                        <FormMessage />
                     </FormItem>
                 )}/>
                 <div className="flex gap-4">
@@ -62,7 +69,7 @@ const SignupForm = () => {
                 </div>
                 <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                     <FormItem>
                         <FormLabel>Email</FormLabel>
@@ -86,9 +93,10 @@ const SignupForm = () => {
                         </FormControl>
                     </FormItem>
                 )}/>
-                <Button className="w-fit">
+                <Button>
                     Criar conta
                 </Button>
+                
             </form>
         </Form>
     );
