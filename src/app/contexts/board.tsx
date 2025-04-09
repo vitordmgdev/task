@@ -2,7 +2,7 @@
 
 import { CircleCheck, CircleX } from "lucide-react";
 import { createContext, useContext, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { v4 as uuid } from "uuid";
 
 export type task = {
@@ -49,12 +49,13 @@ const initialBoard = {
     ],
 };
 
+export const styledToast = {
+    gap: "16px"
+};
+
 export const BoardProvider = ({children}:{children:React.ReactNode}) => {
     const [ board, setBoard ] = useState<board>(initialBoard);
 
-    const styledToast = {
-        gap: "16px"
-    };
 
     const createColumn = () => {
         const boardLength : number = board.columns.length;
@@ -121,7 +122,6 @@ export const BoardProvider = ({children}:{children:React.ReactNode}) => {
 
     return (
         <BoardContext.Provider value={{ board, createTask, deleteTask, createColumn, deleteColumn }}>
-            <Toaster theme="dark" />
             {children}
         </BoardContext.Provider>
     );
